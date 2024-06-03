@@ -8,5 +8,9 @@ namespace c_sharp_apps_abed_azem.SportApp
 {
     internal class SportAppMain
     {
+        public static void MAinEntry()
+        {
+            Console.WriteLine("SportApp");
+        }
     }
 }

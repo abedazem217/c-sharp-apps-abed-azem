@@ -8,5 +8,9 @@ namespace c_sharp_apps_abed_azem.TransportationApp
 {
     internal class TransportationAppMain
     {
+        public static void MAinEntry()
+        {
+            Console.WriteLine("TransportationApp");
+        }
     }
 }

@@ -8,5 +8,9 @@ namespace c_sharp_apps_abed_azem.Bankapp
 {
     internal class BankAppMain
     {
+        public static void MAinEntry()
+        {
+            Console.WriteLine("BankApp");
+        }
     }
 }
