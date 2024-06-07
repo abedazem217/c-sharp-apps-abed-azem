@@ -1,4 +1,5 @@
-﻿using System;
+﻿using c_sharp_apps_abed_azem.common.system.shared;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace c_sharp_apps_abed_azem
     {
         static void Main(string[] args)
         {
+            ProcessManeger.RunMainProcess();
         }
     }
 }
