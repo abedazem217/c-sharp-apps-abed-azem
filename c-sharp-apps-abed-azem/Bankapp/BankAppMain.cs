@@ -11,6 +11,7 @@ namespace c_sharp_apps_abed_azem.Bankapp
         public static void MAinEntry()
         {
             Console.WriteLine("BankApp");
+            TestAccount.Test1();
         }
     }
 }
