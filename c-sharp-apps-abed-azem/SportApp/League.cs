@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace c_sharp_apps_abed_azem.SportApp
 {
-    public class SportAppMain
+    public class League
     {
-        public static void MAinEntry()
-        {
-            Console.WriteLine("SportApp");
-            TestSportApp.Test1();
-        }
     }
 }
