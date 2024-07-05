@@ -10,7 +10,8 @@ namespace c_sharp_apps_abed_azem.TransportationApp
     {
         public static void MAinEntry()
         {
-            Console.WriteLine("TransportationApp");
+            public static void MainEntry()
+            { Console.WriteLine("TransportationApp"); }
         }
     }
 }
