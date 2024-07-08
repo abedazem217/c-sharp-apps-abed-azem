@@ -6,45 +6,81 @@ using System.Threading.Tasks;
 
 namespace c_sharp_apps_abed_azem.TransportationApp
 {
-    class Bus : PublicVehicle
+    public class Buss : PublicVehicle
     {
-        private readonly int doors;
+        private readonly int doors = 0;
         private bool bellStop = false;
 
-        public Bus()
+        public bool BellStop { get => bellStop; set => bellStop = value; }
+
+        public int Doors => doors;
+
+        public Buss()
         {
+            doors = 0;
+            BellStop = false;
         }
 
-        public Bus(int line, int id, int maxSpeed, int seats, int doors) : base(line, id, maxSpeed, seats)
+
+        public Buss(int line, int id, int maxSpeed, int seats, int doors) : base(line, id, maxSpeed, seats)
         {
             this.doors = doors;
-        }
-        public override void SetMaxSpeed(int value)
-        {
-            if (value < 120 && value > 0)
-            {
-                MaxSpeed = value;
-            }
-        }
-        public virtual bool CalculateHasRoom()
-        {
-            if (Math.Round(Seats*1.1)<CurrentPassengers)
-                return true;
-            return false;
+            MaxSpeed = maxSpeed;
         }
 
-        public virtual void UploadPassengers(int passengers)
+        public override int MaxSpeed
         {
-            if (CalculateHasRoom() == false)
+            set
+            {
+                int vehicleMaxSpeed = 120;
+                if (value <= vehicleMaxSpeed && value > 0)
+                    maxSpeed = value; ;
+            }
+        }
+
+
+
+        public override void CalculateHasRoom()
+        {
+            if (Math.Round(Seats * 1.1) > CurrentPassengers)
+                HasRoom = true;
+            else
+                HasRoom = false;
+        }
+
+        public override void UploadPassengers(int passengers)
+        {
+            if (passengers < 0)
+            {
+                ProcessNegativePassengers(passengers);
                 return;
-            if (passengers + CurrentPassengers <= (int)Math.Round(Seats*1.1))
+            }
+            int totalSeats = (int)Math.Round(Seats * 1.1);
+            int availableSeats = totalSeats - CurrentPassengers;
+            CalculateHasRoom();
+            if (!HasRoom)
+            {
+                //Console.WriteLine("Bus if Full!!");
+                return;
+            }
+            if (passengers + CurrentPassengers <= availableSeats)
+            {
                 CurrentPassengers += passengers;
+                //Console.WriteLine("All passengers registered successfully!!");
+            }
             else
             {
-                CurrentPassengers = Math.Abs(Seats - (CurrentPassengers + passengers));
-                RejecetedPassengers = (int)Math.Round(Seats * 1.1);
+                RejectedPassengers = passengers - availableSeats;
+                CurrentPassengers += availableSeats;
+                //Console.WriteLine($"{passengers- RejectedPassengers} were registred, {RejectedPassengers} were rejected!!");
             }
+            if (CurrentPassengers == totalSeats)
+                HasRoom = false;
+        }
 
+        public override string ToString()
+        {
+            return base.ToString() + $", Doors: {Doors}, Bell Stop: {BellStop}, Has Room: {HasRoom}, Rejected Passengers: {RejectedPassengers}";
         }
     }
 }
