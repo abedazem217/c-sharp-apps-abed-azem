@@ -1,4 +1,5 @@
 ﻿using c_sharp_apps_abed_azem.common.system.shared;
+using c_sharp_apps_abed_azem.TransportationApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,16 @@ namespace c_sharp_apps_abed_azem
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             ProcessManeger.RunMainProcess();
+            RunTests();
+        }
+
+        static void RunTests()
+        {
+            MonitorTransportation.Test1();
         }
     }
 }
