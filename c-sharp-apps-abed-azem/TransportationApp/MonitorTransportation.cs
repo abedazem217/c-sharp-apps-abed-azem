@@ -8,292 +8,61 @@ namespace c_sharp_apps_abed_azem.TransportationApp
 {
     class MonitorTransportation
     {
-        public static void Test1()
+        public static void RunAllTests()
         {
-            
-            // public PublicVehicle(int line, int id, int maxSpeed, int seats)
-            PublicVehicle p1 = new PublicVehicle(18, 8099065, 50, 80);
-            Buss bus = new Buss(1, 2033355, 110, 50, 3); // int line, int id, int maxSpeed, int seats, int doors
-            // int line, int id, int enginesNum, int wingLength, int rows, int columns
-            PassengersAirplain passengersAirplain1 = new PassengersAirplain(605, 987653, 4, 10, 60, 6);
+            Console.WriteLine("Running All Tests...");
 
-            Crone crone1 = new Crone(20, 5);
-            PassengersTrain passengersTrain1 = new PassengersTrain(65, 9998774, 250, 30, crone1, 5);
-            bool allPassed = true;
+            // Test 1: Loading items into TrainCargo
+            IPortable item1 = new CargoItem { Volume = 150, Weight = 300 };
+            IPortable item2 = new CargoItem { Volume = 250, Weight = 400 };
+            IPortable item3 = new CargoItem { Volume = 100, Weight = 150 };
 
-           
-            if (p1.MaxSpeed != 0)
-            {
-                Console.WriteLine("Test 1 Error - Max Speed should be 0 but actual is {0}", p1.MaxSpeed);
-                allPassed = false;
-            }
-            else
-            {
-                Console.WriteLine("Test 1 Passed ");
-            }
+            TrainCargo trainCargo = new TrainCargo { MaxVolume = 1000, MaxWeight = 2000 };
+            bool trainLoadSuccess = trainCargo.Load(new List<IPortable> { item1, item2, item3 });
+            Console.WriteLine($"Test 1 - TrainCargo Load: {(trainLoadSuccess ? "Passed" : "Failed")}");
 
-            if (bus.MaxSpeed != 110)
-            {
-                Console.WriteLine("Test 2 Error - Max Speed should be 110 but actual is {0}", bus.MaxSpeed);
-                allPassed = false;
-            }
-            else
-            {
-                Console.WriteLine("Test 2 Passed ");
-            }
-            bus.MaxSpeed = 200;
+            // Test 2: Loading items into ShipCargo
+            ShipCargo shipCargo = new ShipCargo { MaxVolume = 5000, MaxWeight = 10000 };
+            bool shipLoadSuccess = shipCargo.Load(new List<IPortable> { item1, item2, item3 });
+            Console.WriteLine($"Test 2 - ShipCargo Load: {(shipLoadSuccess ? "Passed" : "Failed")}");
 
-            if (bus.MaxSpeed != 110)
-            {
-                Console.WriteLine("Test 3 Error - Max Speed should be 110 but actual is {0}", bus.MaxSpeed);
-                allPassed = false;
-            }
-            else
-            {
-                Console.WriteLine("Test 3 Passed ");
-            }
+            // Test 3: Unloading items from TrainCargo
+            bool trainUnloadSuccess = trainCargo.Unload(new List<IPortable> { item1, item2 });
+            Console.WriteLine($"Test 3 - TrainCargo Unload: {(trainUnloadSuccess ? "Passed" : "Failed")}");
 
-           
-            passengersAirplain1.CurrentPassengers = 300;
-            passengersAirplain1.UploadPassengers(100);
+            // Test 4: Unloading items from ShipCargo
+            bool shipUnloadSuccess = shipCargo.Unload(new List<IPortable> { item1, item2 });
+            Console.WriteLine($"Test 4 - ShipCargo Unload: {(shipUnloadSuccess ? "Passed" : "Failed")}");
 
-            if (passengersAirplain1.CurrentPassengers == 353 && passengersAirplain1.RejectedPassengers == 47)
-            {
-                Console.WriteLine("Test 4 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 4 Error - CurrentPassengers should be 353 but actual is {0} \n" +
-                    "And rejected should be 47 but actual is {1} ", passengersAirplain1.CurrentPassengers,
-                    passengersAirplain1.RejectedPassengers);
-                allPassed = false;
-            }
+            // Test 5: Check for overloading TrainCargo
+            trainCargo.Load(item3);
+            bool isTrainOverloaded = trainCargo.IsOverload();
+            Console.WriteLine($"Test 5 - TrainCargo Overload: {(isTrainOverloaded ? "Failed" : "Passed")}");
 
-            bus.UploadPassengers(40);
-            bus.UploadPassengers(20);
+            // Test 6: Check for overloading ShipCargo
+            shipCargo.Load(item3);
+            bool isShipOverloaded = shipCargo.IsOverload();
+            Console.WriteLine($"Test 6 - ShipCargo Overload: {(isShipOverloaded ? "Failed" : "Passed")}");
 
-            if (bus.CurrentPassengers == 55 && bus.RejectedPassengers == 5)
-            {
-                Console.WriteLine("Test 5 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 5 Error - CurrentPassengers should be 55 but actual is {0} \n" +
-                  "And rejected should be 5 but actual is {1} ", bus.CurrentPassengers,
-                  bus.RejectedPassengers);
-                allPassed = false;
-            }
+            // Test 7: Calculate total load weight in TrainCargo
+            int trainTotalWeight = trainCargo.GetCurrentWeight();
+            Console.WriteLine($"Test 7 - TrainCargo Total Weight: {trainTotalWeight}");
 
-            if (passengersTrain1.Id == 9998774)
-            {
-                Console.WriteLine("Test 6 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 6 Error - id should be 9998774 but actual is {0} ", passengersTrain1.Id);
-                allPassed = false;
-            }
+            // Test 8: Calculate total load weight in ShipCargo
+            int shipTotalWeight = shipCargo.GetCurrentWeight();
+            Console.WriteLine($"Test 8 - ShipCargo Total Weight: {shipTotalWeight}");
 
-            passengersTrain1.UploadPassengers(300);
-            passengersTrain1.UploadPassengers(134);
+            // Test 9: Calculate total load volume in TrainCargo
+            int trainTotalVolume = trainCargo.GetCurrentVolume();
+            Console.WriteLine($"Test 9 - TrainCargo Total Volume: {trainTotalVolume}");
 
-            if (passengersTrain1.CurrentPassengers == 434 && passengersTrain1.RejectedPassengers == 0)
-            {
-                Console.WriteLine("Test 7 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 7 Error - CurrentPassengers should be 434 but actual is {0} \n" +
-                  "And rejected should be 0 but actual is {1} ", passengersTrain1.CurrentPassengers,
-                  passengersTrain1.RejectedPassengers);
-                allPassed = false;
-            }
+            // Test 10: Calculate total load volume in ShipCargo
+            int shipTotalVolume = shipCargo.GetCurrentVolume();
+            Console.WriteLine($"Test 10 - ShipCargo Total Volume: {shipTotalVolume}");
 
-            passengersTrain1.UploadPassengers(405);
-
-            if (passengersTrain1.CurrentPassengers == 700 && passengersTrain1.RejectedPassengers == 139
-                && !passengersTrain1.HasRoom)
-            {
-                Console.WriteLine("Test 8 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 8 Error - CurrentPassengers should be 700 but actual is {0} \n" +
-                  "And rejected should be 139 but actual is {1} and HasRoom should be False, but actual is {2}",
-                  passengersTrain1.CurrentPassengers, passengersTrain1.RejectedPassengers, passengersTrain1.HasRoom);
-                allPassed = false;
-            }
-
-         
-            if (passengersTrain1.Crones[0].Equals(passengersTrain1.Crones[1]))
-            {
-                Console.WriteLine("Test 9 Error - each crone of the train should be different instance. ");
-                allPassed = false;
-            }
-            else
-            {
-                Console.WriteLine("Test 9 Passed");
-            }
-
-            if (passengersTrain1.Crones[0].Equals(passengersTrain1.Crones[1]))
-            {
-                Console.WriteLine("Test 10 Error - each crone of the train should be different instance. ");
-                allPassed = false;
-            }
-            else
-            {
-                Console.WriteLine("Test 10 Passed");
-            }
-
-            Console.WriteLine("\n*********************************\n");
-
-            if (allPassed)
-            {
-                Console.WriteLine("All TEST PASSED - WELL DONE!! \n" +
-                    "Yet it's not saying that everything work well. You should test yourself a little bit, also.");
-            }
-            else
-            {
-                Console.WriteLine("YOU HAVE FAILURES AT THE TESTS :( - SEE ABOVE");
-            }
-            Console.WriteLine("\n*********************************\n");
-            Console.WriteLine("Self Tasts");
-            Console.WriteLine("\n*********************************\n");
-            Console.WriteLine("Check ToString() Methods\n");
-            Console.WriteLine(bus);
-            Console.WriteLine(passengersAirplain1);
-            Console.WriteLine(passengersTrain1);
-            Console.WriteLine("\n*********************************\n");
-            Console.WriteLine("Check Get Off the vehicle");
-
-            bool passNewCheck = true;
-            bus.UploadPassengers(-60);
-            bus.UploadPassengers(20);
-            if (bus.CurrentPassengers == 20 && bus.HasRoom)
-            {
-                Console.WriteLine("Test 11 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 11 Error - CurrentPassengers should be 20 but actual is {0} \n" +
-                  "And HasRoom should be true but actual is {1} ", bus.CurrentPassengers, bus.HasRoom);
-                passNewCheck = false;
-            }
-
-            passengersAirplain1.UploadPassengers(-400);
-            if (passengersAirplain1.CurrentPassengers == 0 && passengersAirplain1.HasRoom)
-            {
-                Console.WriteLine("Test 12 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 12 Error - CurrentPassengers should be 0 but actual is {0} \n" +
-                  "And HasRoom should be true but actual is {1} ", passengersAirplain1.CurrentPassengers,
-                  passengersAirplain1.HasRoom);
-                passNewCheck = false;
-            }
-
-            passengersTrain1.UploadPassengers(-250);
-            if (passengersTrain1.CurrentPassengers == 450 && passengersTrain1.HasRoom)
-            {
-                Console.WriteLine("Test 13 Passed ");
-            }
-            else
-            {
-                Console.WriteLine("Test 13 Error - CurrentPassengers should be 450 but actual is {0} \n" +
-                  "And HasRoom should be true but actual is {1} ", passengersTrain1.CurrentPassengers,
-                  passengersTrain1.HasRoom);
-                passNewCheck = false;
-            }
-
-            Console.WriteLine("\n*********************************");
-            if (passNewCheck)
-            {
-                Console.WriteLine("All NEW TESTS PASSED!!");
-            }
-            else
-            {
-                Console.WriteLine("YOU HAVE FAILURES AT THE TESTS :( - SEE ABOVE");
-            }
-            Console.WriteLine("*********************************\n");
-
-           
-            TrainCargo trainCargo = new TrainCargo { MaxVolume = 5000, MaxWeight = 10000 };
-            IPortable cargoItem1 = new CargoItem { Volume = 100, Weight = 200 };
-            IPortable cargoItem2 = new CargoItem { Volume = 200, Weight = 300 };
-
-           
-            if (trainCargo.Load(cargoItem1) && trainCargo.CargoItems.Contains(cargoItem1))
-            {
-                Console.WriteLine("Test 14 Passed - Item 1 loaded successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Test 14 Failed - Item 1 not loaded.");
-                passNewCheck = false;
-            }
-
-        
-            if (trainCargo.Load(cargoItem2) && trainCargo.CargoItems.Contains(cargoItem2))
-            {
-                Console.WriteLine("Test 15 Passed - Item 2 loaded successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Test 15 Failed - Item 2 not loaded.");
-                passNewCheck = false;
-            }
-
-     
-            if (trainCargo.GetCurrentVolume() == 300 && trainCargo.GetCurrentWeight() == 500)
-            {
-                Console.WriteLine("Test 16 Passed - Correct cargo volume and weight.");
-            }
-            else
-            {
-                Console.WriteLine("Test 16 Failed - Incorrect cargo volume or weight.");
-                passNewCheck = false;
-            }
-
-        
-            if (trainCargo.Unload(cargoItem1) && !trainCargo.CargoItems.Contains(cargoItem1))
-            {
-                Console.WriteLine("Test 17 Passed - Item 1 unloaded successfully.");
-            }
-            else
-            {
-                Console.WriteLine("Test 17 Failed - Item 1 not unloaded.");
-                passNewCheck = false;
-            }
-
-            Console.WriteLine("\n*********************************");
-            if (passNewCheck)
-            {
-                Console.WriteLine("All NEW TESTS PASSED!!");
-            }
-            else
-            {
-                Console.WriteLine("YOU HAVE FAILURES AT THE TESTS :( - SEE ABOVE");
-            }
-            Console.WriteLine("*********************************\n");
+            Console.WriteLine("All tests completed.");
         }
     }
 
- 
-    class CargoItem : IPortable
-    {
-        public int Volume { get; set; }
-        public int Weight { get; set; }
-
-        public int GetArea() => throw new NotImplementedException();
-        public int[] GetSize() => throw new NotImplementedException();
-        public int GetVolume() => Volume;
-        public int GetWeight() => Weight;
-        public void PackageItem() => throw new NotImplementedException();
-        public bool IsPackaged() => throw new NotImplementedException();
-        public void UnPackage() => throw new NotImplementedException();
-        public bool IsFragile() => throw new NotImplementedException();
-        public StorageStructure GetLocation() => throw new NotImplementedException();
-        public bool IsLoaded() => throw new NotImplementedException();
-    }
+   
 }

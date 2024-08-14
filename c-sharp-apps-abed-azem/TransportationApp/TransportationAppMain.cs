@@ -10,7 +10,7 @@ namespace c_sharp_apps_abed_azem.TransportationApp
     {
         public static void MainEntry()
         {
-            MonitorTransportation.Test1();
+            MonitorTransportation.RunAllTests();
             Console.ReadKey();
         }
     }

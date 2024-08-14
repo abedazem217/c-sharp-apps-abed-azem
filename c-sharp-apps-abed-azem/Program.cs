@@ -13,13 +13,8 @@ namespace c_sharp_apps_abed_azem
 
         static void Main(string[] args)
         {
-            ProcessManeger.RunMainProcess();
-            RunTests();
-        }
-
-        static void RunTests()
-        {
-            MonitorTransportation.Test1();
+            MonitorTransportation.RunAllTests();
+            Console.ReadKey();
         }
     }
 }
